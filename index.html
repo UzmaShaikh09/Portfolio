@@ -772,6 +772,34 @@
       flex-direction: column;
       backdrop-filter: blur(8px);
       box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.07;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    
+    .project-card .project-video-hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: -1;
     }
     
     .project-card:hover {
@@ -779,6 +807,14 @@
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
       background: rgba(255, 255, 255, 0.05);
       border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .project-card:hover::before {
+      opacity: 0.15;
+    }
+    
+    .project-card:hover .project-video-hover {
+      opacity: 0.12;
     }
     
     .project-header {
@@ -1450,7 +1486,8 @@
       </div>
       
       <div class="projects-grid">
-        <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="project-card" data-aos="fade-up" data-aos-delay="100" style="background-image: url('https://i.imgur.com/ruPdmuI.png');">
+          <video class="project-video-hover" src="https://res.cloudinary.com/datqzghdg/video/upload/v1744597551/New_Project_1_8A5E05E_wj3swn.mp4" muted loop></video>
           <div class="project-header">
             <div class="project-icon-wrapper ecommerce-icon">
               <i class="fas fa-chart-bar project-icon"></i>
@@ -1480,7 +1517,8 @@
           </div>
         </div>
         
-        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="project-card" data-aos="fade-up" data-aos-delay="200" style="background-image: url('https://i.imgur.com/b4H5hRC.png');">
+          <video class="project-video-hover" src="https://res.cloudinary.com/datqzghdg/video/upload/v1745598439/New_Project_3_28E2241_d59cor.mp4" muted loop></video>
           <div class="project-header">
             <div class="project-icon-wrapper market-icon">
               <i class="fas fa-search-dollar project-icon"></i>
@@ -1514,7 +1552,7 @@
           </div>
         </div>
         
-        <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="project-card" data-aos="fade-up" data-aos-delay="300" style="background-image: url('https://res.cloudinary.com/datqzghdg/image/upload/v1746267506/PROJECT_3_a1zfnh.png');">
           <div class="project-header">
             <div class="project-icon-wrapper customer-icon">
               <i class="fas fa-network-wired project-icon"></i>
@@ -1825,6 +1863,25 @@
       }
     }
     
+    // Setup project card videos
+    function setupProjectVideos() {
+      const projectCards = document.querySelectorAll('.project-card');
+      
+      projectCards.forEach(card => {
+        const video = card.querySelector('.project-video-hover');
+        if (video) {
+          card.addEventListener('mouseenter', () => {
+            video.play();
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+          });
+        }
+      });
+    }
+    
     // Setup contact form
     function setupContactForm() {
       const contactForm = document.getElementById('contactForm');
@@ -1924,6 +1981,7 @@
       // setupStars(); // Stars removed
       setupScrollSpy();
       setupContactForm();
+      setupProjectVideos(); // Add video hover functionality
       // setupSkillsConstellation(); // Skills constellation removed
       setupScrollReveal();
     });
