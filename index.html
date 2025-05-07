@@ -68,16 +68,29 @@
     }
     
     /* Background Effects */
+    /* Hero animated gradient background */
     .background-gradient {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: -10;
       background: linear-gradient(45deg, #0d1526, #121a2e, #0f1420);
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    /* Main dark background for other sections */
+    body {
+      background-color: #080808;
+    }
+    
+    /* Show gradient only when at top */
+    body.at-top .background-gradient {
+      opacity: 1;
     }
     
     /* Scroll-Triggered Animations */
@@ -556,17 +569,38 @@
       color: var(--text-secondary);
     }
     
-    /* Skills Constellation */
-    .skills-constellation-container {
+    /* Skills 3D Showcase */
+    .skills-showcase-container {
       width: 100%;
       height: 400px;
       margin-bottom: 3rem;
       border-radius: 15px;
       overflow: hidden;
       position: relative;
-      background: rgba(15, 15, 15, 0.5);
+      background: rgba(10, 10, 10, 0.8);
       border: 1px solid var(--glass-border);
-      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .skills-showcase-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--primary), transparent, var(--secondary), transparent, var(--accent));
+      z-index: -1;
+      filter: blur(10px);
+      opacity: 0.3;
+      border-radius: 16px;
+      animation: gradientBorder 10s linear infinite;
+    }
+    
+    @keyframes gradientBorder {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
     }
     
     #skills-constellation {
@@ -1193,7 +1227,7 @@
     }
   </style>
 </head>
-<body>
+<body class="at-top">
   <!-- Background Effects -->
   <div class="background-gradient"></div>
   
@@ -1300,8 +1334,8 @@
         <p class="section-description">Here are some of the key skills and technologies I've mastered throughout my career.</p>
       </div>
       
-      <!-- Skills Constellation Visualization -->
-      <div class="skills-constellation-container reveal reveal-up">
+      <!-- Skills 3D Showcase -->
+      <div class="skills-showcase-container reveal reveal-up">
         <canvas id="skills-constellation"></canvas>
       </div>
       
@@ -1648,11 +1682,13 @@
       window.addEventListener('scroll', function() {
         let current = '';
         
-        // Sticky navbar
+        // Sticky navbar and background control
         if (window.scrollY > 70) {
           navbar.classList.add('nav-scrolled');
+          document.body.classList.remove('at-top');
         } else {
           navbar.classList.remove('nav-scrolled');
+          document.body.classList.add('at-top');
         }
         
         sections.forEach(sectionId => {
@@ -1775,33 +1811,49 @@
       }
     }
     
-    // Skills Constellation Animation
+    // Skills 3D Showcase Animation
     function setupSkillsConstellation() {
       const canvas = document.getElementById('skills-constellation');
       if (!canvas) return;
       
       const ctx = canvas.getContext('2d');
       const skillsNodes = [
-        { name: 'SQL', color: '#4f8dff' },
-        { name: 'Python', color: '#4f8dff' },
-        { name: 'R', color: '#4f8dff' },
-        { name: 'Excel', color: '#4f8dff' },
-        { name: 'Tableau', color: '#8e5fff' },
-        { name: 'Power BI', color: '#8e5fff' },
-        { name: 'D3.js', color: '#8e5fff' },
-        { name: 'Machine Learning', color: '#ff4f8d' },
-        { name: 'Statistics', color: '#ff4f8d' },
-        { name: 'PostgreSQL', color: '#4fff8d' },
-        { name: 'MongoDB', color: '#4fff8d' },
-        { name: 'Data Mining', color: '#ff4f8d' },
-        { name: 'Data Analysis', color: '#4f8dff' },
-        { name: 'Clustering', color: '#ff4f8d' },
-        { name: 'Visualization', color: '#8e5fff' }
+        { name: 'SQL', color: '#4f8dff', size: 1.2 },
+        { name: 'Python', color: '#4f8dff', size: 1.3 },
+        { name: 'R', color: '#4f8dff', size: 1 },
+        { name: 'Excel', color: '#4f8dff', size: 1.1 },
+        { name: 'Tableau', color: '#8e5fff', size: 1.2 },
+        { name: 'Power BI', color: '#8e5fff', size: 1.3 },
+        { name: 'D3.js', color: '#8e5fff', size: 1.1 },
+        { name: 'Machine Learning', color: '#ff4f8d', size: 1.4 },
+        { name: 'Statistics', color: '#ff4f8d', size: 1.2 },
+        { name: 'PostgreSQL', color: '#4fff8d', size: 1.2 },
+        { name: 'MongoDB', color: '#4fff8d', size: 1.1 },
+        { name: 'Data Mining', color: '#ff4f8d', size: 1.2 },
+        { name: 'Data Analysis', color: '#4f8dff', size: 1.5 },
+        { name: 'Clustering', color: '#ff4f8d', size: 1.1 },
+        { name: 'Visualization', color: '#8e5fff', size: 1.3 }
       ];
       
       let nodes = [];
       let lines = [];
       let animFrame;
+      let mouseX = null;
+      let mouseY = null;
+      let hoveredNode = null;
+      
+      // Add mouse interaction
+      canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      });
+      
+      canvas.addEventListener('mouseleave', () => {
+        mouseX = null;
+        mouseY = null;
+        hoveredNode = null;
+      });
       
       function initializeCanvas() {
         canvas.width = canvas.offsetWidth;
@@ -1813,10 +1865,15 @@
             name: skill.name,
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            radius: skill.name.length * 1.5,
+            radius: skill.name.length * skill.size * 1.2,
+            baseRadius: skill.name.length * skill.size * 1.2,
             color: skill.color,
-            velocityX: (Math.random() - 0.5) * 0.5,
-            velocityY: (Math.random() - 0.5) * 0.5
+            baseColor: skill.color,
+            velocityX: (Math.random() - 0.5) * 0.4,
+            velocityY: (Math.random() - 0.5) * 0.4,
+            hovered: false,
+            pulsePhase: Math.random() * Math.PI * 2, // Random starting phase for pulsing
+            glowOpacity: 0.4 + Math.random() * 0.2 // Random glow opacity
           };
         });
       }
@@ -1824,59 +1881,132 @@
       function drawNodes() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Draw connections first (behind nodes)
-        ctx.lineWidth = 0.5;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-        
+        // Draw connections with gradient
         for (let i = 0; i < nodes.length; i++) {
           for (let j = i + 1; j < nodes.length; j++) {
+            const nodeA = nodes[i];
+            const nodeB = nodes[j];
             const distance = Math.sqrt(
-              Math.pow(nodes[i].x - nodes[j].x, 2) + 
-              Math.pow(nodes[i].y - nodes[j].y, 2)
+              Math.pow(nodeA.x - nodeB.x, 2) + 
+              Math.pow(nodeA.y - nodeB.y, 2)
             );
             
-            if (distance < 150) {
+            if (distance < 180) {
+              // Create gradient for connection
+              const gradient = ctx.createLinearGradient(nodeA.x, nodeA.y, nodeB.x, nodeB.y);
+              gradient.addColorStop(0, nodeA.color + '40');
+              gradient.addColorStop(1, nodeB.color + '40');
+              
+              // Calculate line opacity based on distance
+              const opacity = 1 - (distance / 180);
+              
               ctx.beginPath();
-              ctx.moveTo(nodes[i].x, nodes[i].y);
-              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.moveTo(nodeA.x, nodeA.y);
+              ctx.lineTo(nodeB.x, nodeB.y);
+              ctx.strokeStyle = gradient;
+              ctx.lineWidth = (nodeA.hovered || nodeB.hovered) ? 1.5 : 0.8;
+              ctx.globalAlpha = opacity * 0.8;
               ctx.stroke();
+              ctx.globalAlpha = 1;
             }
           }
         }
         
-        // Draw nodes
+        // Draw nodes with effects
         nodes.forEach(node => {
+          // Pulse effect - make radius and glow change over time
+          const pulseAmount = Math.sin(node.pulsePhase) * 0.2 + 1; // Oscillate between 0.8 and 1.2
+          const currentRadius = node.radius * pulseAmount;
+          
+          // Glow effect
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = node.color + '30'; // Add transparency
+          const glowSize = currentRadius * 2;
+          const radialGradient = ctx.createRadialGradient(
+            node.x, node.y, 0,
+            node.x, node.y, glowSize
+          );
+          radialGradient.addColorStop(0, node.color + '50');
+          radialGradient.addColorStop(1, node.color + '00');
+          ctx.fillStyle = radialGradient;
+          ctx.globalAlpha = node.glowOpacity * (node.hovered ? 1.5 : 1);
+          ctx.arc(node.x, node.y, glowSize, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          
+          // Node fill
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, currentRadius, 0, Math.PI * 2);
+          ctx.fillStyle = node.color + (node.hovered ? '60' : '30');
           ctx.fill();
           
+          // Node border
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+          ctx.arc(node.x, node.y, currentRadius, 0, Math.PI * 2);
           ctx.strokeStyle = node.color;
+          ctx.lineWidth = node.hovered ? 2 : 1;
           ctx.stroke();
           
-          ctx.font = '12px Inter, sans-serif';
+          // Node text
+          ctx.font = (node.hovered ? 'bold 14px' : '12px') + ' Inter, sans-serif';
           ctx.fillStyle = '#ffffff';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(node.name, node.x, node.y);
+          
+          // Update pulse phase
+          node.pulsePhase += 0.02;
         });
       }
       
       function updateNodes() {
+        // Check for mouse hover
+        hoveredNode = null;
+        if (mouseX !== null && mouseY !== null) {
+          for (const node of nodes) {
+            const distance = Math.sqrt(Math.pow(node.x - mouseX, 2) + Math.pow(node.y - mouseY, 2));
+            
+            if (distance < node.radius + 5) {
+              hoveredNode = node;
+              break;
+            }
+          }
+        }
+        
+        // Update nodes
         nodes.forEach(node => {
+          // Handle hover state
+          if (node === hoveredNode) {
+            node.hovered = true;
+            node.radius = node.baseRadius * 1.3; // Expand on hover
+          } else {
+            node.hovered = false;
+            // Smoothly return to original size
+            node.radius = node.radius * 0.9 + node.baseRadius * 0.1;
+          }
+          
           // Update position
           node.x += node.velocityX;
           node.y += node.velocityY;
           
-          // Bounce off walls
+          // Bounce off walls with slight randomization
           if (node.x < node.radius || node.x > canvas.width - node.radius) {
             node.velocityX *= -1;
+            node.velocityX += (Math.random() - 0.5) * 0.1; // Add a bit of randomness
+            node.velocityY += (Math.random() - 0.5) * 0.1;
           }
           
           if (node.y < node.radius || node.y > canvas.height - node.radius) {
             node.velocityY *= -1;
+            node.velocityX += (Math.random() - 0.5) * 0.1;
+            node.velocityY += (Math.random() - 0.5) * 0.1;
+          }
+          
+          // Limit velocity
+          const maxVelocity = 0.8;
+          const velocityMagnitude = Math.sqrt(node.velocityX * node.velocityX + node.velocityY * node.velocityY);
+          if (velocityMagnitude > maxVelocity) {
+            node.velocityX = (node.velocityX / velocityMagnitude) * maxVelocity;
+            node.velocityY = (node.velocityY / velocityMagnitude) * maxVelocity;
           }
         });
       }
@@ -1896,6 +2026,55 @@
         cancelAnimationFrame(animFrame);
         initializeCanvas();
         animate();
+      });
+    }
+    
+    // Setup Scroll Spy
+    function setupScrollSpy() {
+      const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
+      const navLinks = document.querySelectorAll('.nav-link');
+      const scrollDots = document.querySelectorAll('.scroll-dot');
+      const navbar = document.getElementById('navbar');
+      
+      window.addEventListener('scroll', function() {
+        let current = '';
+        
+        // Sticky navbar and background control
+        if (window.scrollY > 70) {
+          navbar.classList.add('nav-scrolled');
+          document.body.classList.remove('at-top');
+        } else {
+          navbar.classList.remove('nav-scrolled');
+          document.body.classList.add('at-top');
+        }
+        
+        sections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (window.scrollY >= (sectionTop - 300)) {
+              current = sectionId;
+            }
+          }
+        });
+        
+        // Update active nav link
+        navLinks.forEach(link => {
+          link.classList.remove('active-link');
+          if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active-link');
+          }
+        });
+        
+        // Update active scroll dot
+        scrollDots.forEach(dot => {
+          dot.classList.remove('active');
+          if (dot.getAttribute('data-section') === current) {
+            dot.classList.add('active');
+          }
+        });
       });
     }
     
