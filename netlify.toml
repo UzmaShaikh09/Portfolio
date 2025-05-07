@@ -1,0 +1,3 @@
+# Static site deployment settings
+[build]
+  publish = "."  # Publish the current directory
