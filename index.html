@@ -309,7 +309,6 @@
     
     /* Hero Section */
     #hero {
-      text-align: center;
       position: relative;
       overflow: hidden;
       display: flex;
@@ -321,106 +320,192 @@
     .hero-content {
       position: relative;
       z-index: 1;
+      padding: 2rem;
+      width: 100%;
+    }
+    
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      text-align: left;
+    }
+    
+    .hero-heading {
+      margin-bottom: 1rem;
+    }
+    
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(to right, #4f8dff, #38b6ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .gradient-text-purple {
+      background: linear-gradient(to right, #9c6bff, #c961ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+    
+    .hero-description {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+    
+    .cta-container {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .hero-social {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .hero-social-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    .hero-social-icons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .hero-social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .hero-social-link:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+    }
+    
+    .hero-visual {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+    }
+    
+    .hero-card {
+      background: rgba(18, 18, 18, 0.5);
+      backdrop-filter: blur(8px);
+      padding: 2.5rem;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 300px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-    
-    .hero-highlight {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
-      border-radius: 30px;
-      padding: 5rem 3rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-      max-width: 900px;
-      margin: 0 auto;
+      text-align: center;
+      gap: 1.5rem;
       position: relative;
       overflow: hidden;
     }
     
-    .hero-highlight::before {
-      content: "";
+    .hero-card::before {
+      content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background: linear-gradient(45deg, 
-        rgba(79, 141, 255, 0.05), 
-        rgba(79, 141, 255, 0),
-        rgba(142, 95, 255, 0.05),
-        rgba(142, 95, 255, 0),
-        rgba(255, 79, 141, 0.05));
+        rgba(79, 141, 255, 0.1), 
+        rgba(142, 95, 255, 0.1),
+        rgba(255, 79, 141, 0.1));
       z-index: -1;
       background-size: 400% 400%;
       animation: gradientMove 15s ease infinite;
     }
     
-    @keyframes gradientMove {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-    
-    .hero-icon {
-      font-size: 5rem;
-      margin-bottom: 2rem;
-      color: var(--primary);
-      animation: float 6s ease-in-out infinite;
-      display: inline-block;
-      position: relative;
-    }
-    
-    .hero-icon::after {
-      content: '';
-      position: absolute;
+    .hero-card-icon {
       width: 120px;
       height: 120px;
-      background: radial-gradient(circle, rgba(79, 141, 255, 0.3), rgba(79, 141, 255, 0));
       border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: -1;
-      animation: pulse 4s infinite;
-    }
-    
-    .hero-title {
-      font-size: 4.5rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      line-height: 1.1;
-      background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      position: relative;
-      display: inline-block;
-    }
-    
-    .hero-subtitle {
-      font-size: 1.5rem;
-      color: var(--text-secondary);
-      margin-bottom: 2.5rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .cta-container {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      margin-top: 2rem;
+      align-items: center;
+      font-size: 3rem;
+      color: #4f8dff;
+      position: relative;
+      background: linear-gradient(135deg, rgba(79, 141, 255, 0.1), rgba(79, 141, 255, 0.3));
+    }
+    
+    .hero-card-icon::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 1px solid rgba(79, 141, 255, 0.3);
+      animation: pulse 3s infinite;
+    }
+    
+    .hero-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    @media (max-width: 991px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      
+      .hero-title {
+        font-size: 3.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.5rem;
+      }
+      
+      .hero-visual {
+        order: -1;
+        justify-content: center;
+      }
     }
     
     .cta-button {
@@ -765,7 +850,7 @@
       background: rgba(15, 15, 15, 0.5);
       border: 1px solid var(--glass-border);
       border-radius: 15px;
-      overflow: hidden;
+      overflow: visible;
       transition: all 0.3s ease;
       height: 100%;
       display: flex;
@@ -776,30 +861,33 @@
       z-index: 1;
     }
     
-    .project-card::before {
-      content: '';
+    .project-preview {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      opacity: 0.07;
-      transition: opacity 0.3s ease;
-      z-index: -1;
+      top: 50%;
+      right: -300px;
+      transform: translateY(-50%);
+      width: 280px;
+      height: auto;
+      max-height: 200px;
+      border-radius: 10px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
     }
     
-    .project-card .project-video-hover {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .project-preview img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      z-index: -1;
+      height: auto;
+      display: block;
+    }
+    
+    .project-preview video {
+      width: 100%;
+      height: auto;
+      display: block;
     }
     
     .project-card:hover {
@@ -809,12 +897,9 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
     
-    .project-card:hover::before {
-      opacity: 0.15;
-    }
-    
-    .project-card:hover .project-video-hover {
-      opacity: 0.12;
+    .project-card:hover .project-preview {
+      opacity: 1;
+      transform: translateY(-50%) translateX(-10px);
     }
     
     .project-header {
@@ -1322,15 +1407,47 @@
   <!-- Hero Section -->
   <section id="hero">
     <div class="container hero-content">
-      <div class="hero-highlight">
-        <div class="hero-icon">
-          <i class="fas fa-chart-line"></i>
+      <div class="hero-split">
+        <div class="hero-text">
+          <div class="hero-heading">
+            <h1 class="hero-title">Hi, I'm <span class="gradient-text">Owez</span> <span class="gradient-text-purple">Shaikh</span></h1>
+            <h2 class="hero-subtitle">Data Analyst & AI Enthusiast</h2>
+          </div>
+          <p class="hero-description">
+            Transforming complex data into actionable insights with advanced analytics and AI integration. I help businesses make data-driven decisions and optimize their operations through powerful visualizations and predictive models.
+          </p>
+          <div class="cta-container">
+            <a href="#contact" class="cta-button primary-cta">Contact Me</a>
+            <a href="#" class="cta-button secondary-cta" id="download-cv">Download CV</a>
+          </div>
+          <div class="hero-social">
+            <p class="hero-social-text">Find me on:</p>
+            <div class="hero-social-icons">
+              <a href="https://github.com/" target="_blank" class="hero-social-link">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="https://instagram.com/" target="_blank" class="hero-social-link">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://wa.me/917350311151" target="_blank" class="hero-social-link">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+              <a href="https://discord.com/" target="_blank" class="hero-social-link">
+                <i class="fab fa-discord"></i>
+              </a>
+              <a href="https://t.me/" target="_blank" class="hero-social-link">
+                <i class="fab fa-telegram"></i>
+              </a>
+            </div>
+          </div>
         </div>
-        <h1 class="hero-title">Owez Shaikh</h1>
-        <h2 class="hero-subtitle">Data Analyst & Visualization Expert</h2>
-        <div class="cta-container">
-          <a href="#contact" class="cta-button primary-cta">Get in Touch</a>
-          <a href="#projects" class="cta-button secondary-cta">View Projects</a>
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div class="hero-card-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <h3 class="hero-card-title">Data Analysis</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -1486,8 +1603,10 @@
       </div>
       
       <div class="projects-grid">
-        <div class="project-card" data-aos="fade-up" data-aos-delay="100" style="background-image: url('https://i.imgur.com/ruPdmuI.png');">
-          <video class="project-video-hover" src="https://res.cloudinary.com/datqzghdg/video/upload/v1744597551/New_Project_1_8A5E05E_wj3swn.mp4" muted loop></video>
+        <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="project-preview">
+            <video muted loop src="https://res.cloudinary.com/datqzghdg/video/upload/v1744597551/New_Project_1_8A5E05E_wj3swn.mp4"></video>
+          </div>
           <div class="project-header">
             <div class="project-icon-wrapper ecommerce-icon">
               <i class="fas fa-chart-bar project-icon"></i>
@@ -1517,8 +1636,10 @@
           </div>
         </div>
         
-        <div class="project-card" data-aos="fade-up" data-aos-delay="200" style="background-image: url('https://i.imgur.com/b4H5hRC.png');">
-          <video class="project-video-hover" src="https://res.cloudinary.com/datqzghdg/video/upload/v1745598439/New_Project_3_28E2241_d59cor.mp4" muted loop></video>
+        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="project-preview">
+            <video muted loop src="https://res.cloudinary.com/datqzghdg/video/upload/v1745598439/New_Project_3_28E2241_d59cor.mp4"></video>
+          </div>
           <div class="project-header">
             <div class="project-icon-wrapper market-icon">
               <i class="fas fa-search-dollar project-icon"></i>
@@ -1552,7 +1673,10 @@
           </div>
         </div>
         
-        <div class="project-card" data-aos="fade-up" data-aos-delay="300" style="background-image: url('https://res.cloudinary.com/datqzghdg/image/upload/v1746267506/PROJECT_3_a1zfnh.png');">
+        <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="project-preview">
+            <img src="https://res.cloudinary.com/datqzghdg/image/upload/v1746267506/PROJECT_3_a1zfnh.png" alt="Darknet Market Analysis">
+          </div>
           <div class="project-header">
             <div class="project-icon-wrapper customer-icon">
               <i class="fas fa-network-wired project-icon"></i>
