@@ -1030,7 +1030,7 @@
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 99999;
       overflow: hidden;
       border: 2px solid rgba(79, 141, 255, 0.6);
       max-width: 90vw;
@@ -1926,8 +1926,7 @@
         
         <div class="contact-form" data-aos="fade-left">
           <h3 class="form-title">Send Me a Message</h3>
-          <form id="contactForm" action="https://formspree.io/f/xdkovpzk" method="POST">
-            <input type="hidden" name="_to" value="owezshaikh789@gmail.com">
+          <form id="contactForm" action="mailto:owezshaikh789@gmail.com" method="post" enctype="text/plain">
             <div class="form-group">
               <label for="name" class="form-label">Your Name</label>
               <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
@@ -2166,41 +2165,17 @@
       
       if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          // Get form data
-          const formData = new FormData(this);
-          
-          // Submit to Formspree
-          fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          }).then(response => {
-            if (response.ok) {
-              // Show success message
-              this.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                  <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
-                  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Message Sent Successfully!</h3>
-                  <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Thank you for reaching out! I'll get back to you as soon as possible.</p>
-                </div>
-              `;
-            } else {
-              throw new Error('Form submission failed');
-            }
-          }).catch(error => {
-            // Show error message
+          // Let the form submit normally to open email client
+          // Show confirmation message after a short delay
+          setTimeout(() => {
             this.innerHTML = `
               <div style="text-align: center; padding: 2rem;">
-                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ff6b6b; margin-bottom: 1.5rem;"></i>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Oops! Something went wrong</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Please try again or contact me directly at owezshaikh789@gmail.com</p>
+                <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Email Client Opened!</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Your email client should have opened with the message pre-filled. Please send it from there, or contact me directly at owezshaikh789@gmail.com</p>
               </div>
             `;
-          });
+          }, 1000);
         });
       }
     }
