@@ -1022,17 +1022,19 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 800px;
-      height: 500px;
-      border-radius: 15px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+      width: 450px;
+      height: 300px;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
       pointer-events: none;
-      z-index: 2000;
+      z-index: 9999;
       overflow: hidden;
       border: 2px solid rgba(79, 141, 255, 0.6);
+      max-width: 90vw;
+      max-height: 80vh;
     }
     
     .project-preview::after {
